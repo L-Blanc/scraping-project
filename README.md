@@ -1,6 +1,10 @@
-# Niche Florida Public School Scraper
+#Florida Public School Scraper
 
-For this project, I used a combination of the Selenium and BeautifulSoup python libraries to scrape school information (school name, school distrct/city, total student count, student to teacher ratio, and overall Niche grade) from public K-12 schools in Florida from the page url(https://www.niche.com/k12/search/best-public-schools/s/florida/)
+For this project, I used a combination of the Selenium and BeautifulSoup python libraries to scrape school information (school name, school distrct/city, total student count, student to teacher ratio, and overall Niche grade) from public K-12 schools in Florida from Niche.com
+
+page url(https://www.niche.com/k12/search/best-public-schools/s/florida/).
+
+Niche provides report cards for K-12 schools and attributes ratings to schools based on a series of factors. You can find out more about about their methodology here:https://www.niche.com/k12/rankings/methodology/  school rankings
 
 - First, I used the variable csvfile to open a csv file named "schools.csv" to collect the information I would be scraping from the page.
 To that csv, I used the writerow function to create a row for each item I would be scraping.
