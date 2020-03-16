@@ -22,7 +22,7 @@ To that csv, I used the c.writerow() function to create a row for each item I wo
 Basically I am telling the page:
   1. Open 
   2. Scrape all of the divs on the page and put them into a list
-  3. Scrape the page using the scrape_one_school() function, write the contents (school_details) to the csvfile
+  3. Scrape the divs using the scrape_one_school() function, write the contents (school_details) to the csvfile
   4. Go to the next page, repeat 
 
 - To ensure the items are being collected, I created another for loop that iterates over the list (school_details) and prints each schools information in the terminal.
