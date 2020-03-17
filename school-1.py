@@ -19,7 +19,7 @@ c = csv.writer(csvfile)
 c.writerow(["school_name", "district_or_city", "total_count_of_students", "student_teacher_ratio", "niche_grade"])
 # csv_list = []
 
-for n in range(3):
+for n in range(153):
     page = driver.page_source
     soup = BeautifulSoup(page, "html.parser")
     try:
