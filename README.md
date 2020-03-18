@@ -6,26 +6,37 @@ page url(https://www.niche.com/k12/search/best-public-schools/s/florida/).
 
 Niche provides report cards for K-12 schools and attributes ratings to schools based on a series of factors. You can find out more about about their methodology here:https://www.niche.com/k12/rankings/methodology/  
 
+## Step 1: Create a csv file for the scrapped results to be written to
 - First, I used the variable csvfile to open a csv file named "schools.csv" to collect the information I would be scraping from the page and created a python object "c" to manipulate.
 To that csv, I used the c.writerow() function to create a row heading for each item I would be scraping.
 
-- Next, I used the Selenium library to create a for loop to click a button and iterate over each of the 153 pages related to my search results for public schools in Florida.
+#Step 2: Use BeautifulSoup to collect the search results on the page
+- Next, I used the variable ("page") to launch my page url and created my soup variable to collect all of the divs off the page that had the class "search result" into the variable ("list_of_schools") so that I would ONLY collect the school results related to my filtered search for "public schools in Florida" and not pick up any of the divs containing the sponsored results throughout the page.
 
-- Then, inside of that for loop, I collected all of  the divs off each page that had the class "search result" into the variable "list_of_schools" so that I would ONLY collect the school results related to my filtered search for "public schools in Florida" and not pick up any of the divs containing the sponsored results throughout the page.
+## Step 3: Create a function to scrape the school information
+-  Next, I created a function (scrape_one_school()) that uses the find() function to target different text elements within the scraped divs and stores that information into individual variables(school_names, district_or_city, student_count, niche_grade)
+  - scrape_one_school() scrapes the information for one school and uses a for loop to iterate over each school (div) in the list of divs created by the variable "list_of_schools".
 
-- Next, I created a function (scrape_one_school()) that uses the find() function to target different elements within the scraped div and stores that information into individual variables. scrape_one_school() scrapes the information for one school and I put a for loop in that function that iterates over each school (div) in the list (of divs) created by the variable "list_of_schools". This function went inside of the for loop I used in the beginning to iterate over each page.
-
-- Within the function scrape_one_school(),  I created a list (school_details) that returns the information I scraped from each div into a list.
+- Within the function scrape_one_school(), the list (school_details) returns the information I scraped from each div into a list.
 
 - Those list items are then written in order into each row of the csv file schools.csv using c.writerow()
 
-Basically I am telling the page:
-  1. Open 
-  2. Scrape all of the divs on the page and put them into a list
-  3. Scrape the divs using the scrape_one_school() function, write the contents (school_details) to the csvfile
-  4. Go to the next page, repeat 
+- To ensure the items are being collected, I created another for loop within the function that iterates over the list (school_details) and prints each schools bit of information in the terminal.
 
-- To ensure the items are being collected, I created another for loop that iterates over the list (school_details) and prints each schools information in the terminal.
+## Step 4: Use Selenium to click a button and scrape the next page of your results
+- I then created the scrape() function where I call the function scrape_one_school() and pass the soup variable to scrape the schools on the first page being launched page.
+- Then I use the Selenium library to create a clicker that uses .click() to click the 'next' button on the bottom of the page.
+
+- Inside this scrape() function I use a for loop to iterate the scrape_one_school() function over each of the 153 pages that are being clicked to related to my search results for public schools in Florida.
+
+
+Basically I am telling the scraper:
+  1. Open the url
+  2. Scrape all of the divs (search results) on the page and put them into a list (list_of_schools)
+  3. Scrape the information from those divs using the scrape_one_school() function, write the contents (school_details) to the csvfile
+  4. Call the scrape(soup) function to do this to every page of search results.
+  5. Go to the next page, repeat
+
 
 The most difficulty I had was chosing a comfortable sleep time that would let me bypass bot captchas.
 
