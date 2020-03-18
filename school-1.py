@@ -5,8 +5,6 @@ from selenium import webdriver
 from random import randint
 from bs4 import BeautifulSoup
 
-
-
 driver = webdriver.Chrome(r'C:\Users\flowe\Documents\python\env\scraping\chromedriver')
 
 driver.get("https://www.niche.com/k12/search/best-public-schools/s/florida/")
@@ -17,46 +15,55 @@ csvfile = open('schools.csv', "w", newline="", encoding='utf-8')
 c = csv.writer(csvfile)
 #     #write each row to csvfile
 c.writerow(["school_name", "district_or_city", "total_count_of_students", "student_teacher_ratio", "niche_grade"])
-# csv_list = []
 
-for n in range(153):
-    page = driver.page_source
-    soup = BeautifulSoup(page, "html.parser")
-    try:
-        driver.find_element_by_css_selector('.icon-arrowright-thin--pagination').click()
-        driver.find_element_by_css_selector('.cookie-banner').click()
-    except:
-        pass
-    s = randint(1, 11)
-        # sleep that number of seconds
-    time.sleep(s)
+page = driver.page_source
+soup = BeautifulSoup(page, "html.parser")
+list_of_schools = soup.find_all("div", class_="search-result")
 
-
-
+def scrape_one_school(soup):
     list_of_schools = soup.find_all("div", class_="search-result")
+    for item in list_of_schools:
+        total_scope=0
+        public_school = item.find("div", class_="search-result")
+        school_names = item.find('h2', class_="search-result__title").get_text()
+        try:
+            niche_grade = item.find("figure").find("div").get_text()
+        except:
+            pass
+        district_or_city = item.find("li", class_="search-result-tagline__item").get_text()
+        student_count = item.find_all('span', class_="search-result-fact__value")
 
-    def scrape_one_school(school):
-        for item in list_of_schools:
-            total_scope=0
-            public_school = item.find("div", class_="search-result")
-            school_names = item.find('h2', class_="search-result__title").get_text()
-            niche_grade = item.find("div",class_="niche__grade--small--a-plus").get_text()
-            district_or_city = item.find("li", class_="search-result-tagline__item").get_text()
-            student_count = item.find_all('span', class_="search-result-fact__value")
+        student_teacher_ratio = student_count[0].get_text()
+        total_count = student_count[1].get_text()
 
-            student_teacher_ratio = student_count[0].get_text()
-            total_count = student_count[1].get_text()
+        school_details = [school_names, district_or_city, student_teacher_ratio, total_count, niche_grade]
 
-            school_details = [school_names, district_or_city, student_teacher_ratio, total_count, niche_grade]
+        c.writerow(school_details)
 
-            c.writerow(school_details)
+        for i in school_details:
+            try:
+             print(i)
+             print()
+            except:
+                pass
+            s = randint(1, 11)
+                # sleep that number of seconds
+            time.sleep(s)
 
-            for i in school_details:
-                try:
-                   print(i) + print()
-                except:
-                    pass
-scrape_one_school(list_of_schools)
+def scrape(soup):
+    for n in range(1):
+        page = driver.page_source
+        soup = BeautifulSoup(page, "html.parser")
+        scrape_one_school(soup)
+        try:
+            driver.find_element_by_css_selector('.icon-arrowright-thin--pagination').click()
+            driver.find_element_by_css_selector('.cookie-banner').click()
+        except:
+            pass
+        s = randint(1, 11)
+        time.sleep(s)
+
+scrape(soup)
 driver.quit()
 #for name in school_names:
 #    print(name.get_text())
@@ -96,3 +103,15 @@ driver.quit()
 #
 
 #driver.quit()
+# niche_grade = item.find("div",class_="niche__grade--small--a").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--a-minus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--b").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--b-plus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--b-minus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--c").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--c-plus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--c-minus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--d").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--d-plus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--d-minus").get_text()
+# niche_grade = item.find("div",class_="niche__grade--small--ng").get_text()
