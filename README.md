@@ -10,7 +10,7 @@ Niche provides report cards for K-12 schools and attributes ratings to schools b
 - First, I used the variable csvfile to open a csv file named "schools.csv" to collect the information I would be scraping from the page and created a python object "c" to manipulate.
 To that csv, I used the c.writerow() function to create a row heading for each item I would be scraping.
 
-# Step 2: Use BeautifulSoup to collect the search results on the page
+## Step 2: Use BeautifulSoup to collect the search results on the page
 - Next, I used the variable ("page") to launch my page url and created my soup variable to collect all of the divs off the page that had the class "search result" into the variable ("list_of_schools") so that I would ONLY collect the school results related to my filtered search for "public schools in Florida" and not pick up any of the divs containing the sponsored results throughout the page.
 
 ## Step 3: Create a function to scrape the school information
